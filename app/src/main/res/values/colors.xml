@@ -160,6 +160,6 @@
     <color name="dominos_divider_line_color">#FFE9E9E9</color>
 
     <color name="black_theme_color">#121212</color>
-
+    <color name="light_green">#40C1B5</color>
 
 </resources>
