@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/JoinUs.iml" filepath="$PROJECT_DIR$/JoinUs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/JoinUs-app.iml" filepath="$PROJECT_DIR$/app/JoinUs-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/JoinUsApp.iml" filepath="$PROJECT_DIR$/JoinUsApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
