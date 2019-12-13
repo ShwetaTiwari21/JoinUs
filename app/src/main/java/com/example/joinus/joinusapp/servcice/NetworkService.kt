@@ -1,13 +1,12 @@
 package com.example.joinus.joinusapp.servcice
 
+import com.example.joinus.joinusapp.models.GetAllPollResponse
+import com.example.joinus.joinusapp.models.PollEvent
 import com.example.joinus.joinusapp.models.ResponseModel
 import com.example.joinus.joinusapp.models.SignupReqModel
 import com.example.joinus.joinusapp.utils.Const
 import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.HeaderMap
-import retrofit2.http.POST
+import retrofit2.http.*
 
 /**
  * Created by shwetatiwari on 13/12/19.
@@ -15,14 +14,30 @@ import retrofit2.http.POST
 
  interface NetworkService {
 
-    @GET(Const.GET_API)
-    fun getPollData (@HeaderMap headerMap: Map<String,String>, @Body body: Body): retrofit2.Call<ResponseModel>
+   @GET(Const.GET_API)
+   fun getPollData(@Query("username") username: String): retrofit2.Call<GetAllPollResponse>
 
-    @POST(Const.SIGNUP_API)
-    fun signUp (@Body body: SignupReqModel): retrofit2.Call<ResponseModel>
+   @POST(Const.SIGNUP_API)
+   fun signUp(@Body body: SignupReqModel): retrofit2.Call<ResponseModel>
 
-    @POST(Const.LOGIN_API)
-    fun login (@Body body: SignupReqModel): retrofit2.Call<ResponseModel>
+   @POST(Const.LOGIN_API)
+   fun login(@Body body: SignupReqModel): retrofit2.Call<ResponseModel>
+
+
+   @POST(Const.POLL_CREATE_API)
+   fun createPollEvent(@HeaderMap headers: Map<String,String>, @Body body: PollEvent): retrofit2.Call<ResponseModel>
+
+   @POST(Const.JOIN_API)
+   fun joinPollEvent(@HeaderMap headers: Map<String,String>?, @Body body: PollEvent): retrofit2.Call<ResponseModel>
+
+   @POST(Const.LEAVE_API)
+   fun leavePollEvent(@HeaderMap headers: Map<String,String>?, @Body body: PollEvent): retrofit2.Call<ResponseModel>
+
+   @POST(Const.UPDATE_API)
+   fun updatePollEvent(@HeaderMap headers: Map<String,String>?, @Body body: PollEvent): retrofit2.Call<ResponseModel>
+
+   @POST(Const.DELETE_API)
+   fun deletePollEvent(@HeaderMap headers: Map<String,String>?, @Body body: PollEvent): retrofit2.Call<ResponseModel>
 
 
 }

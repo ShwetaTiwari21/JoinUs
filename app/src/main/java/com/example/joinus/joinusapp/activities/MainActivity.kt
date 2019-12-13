@@ -1,5 +1,7 @@
 package com.example.joinus.joinusapp.activities
 
+import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -7,31 +9,52 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.ContextMenu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.example.joinus.joinusapp.Adapters.DrawerAdapter
 import com.example.joinus.joinusapp.Adapters.EventAdapter
+import com.example.joinus.joinusapp.MyApplication
 import com.example.joinus.joinusapp.R
 import com.example.joinus.joinusapp.models.DrawerItem
+import com.example.joinus.joinusapp.models.GetAllPollResponse
+import com.example.joinus.joinusapp.models.PollEvent
+import com.example.joinus.joinusapp.models.ResponseModel
+import com.example.joinus.joinusapp.utils.AppUtils
 import com.example.joinus.joinusapp.utils.Const
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.greenrobot.eventbus.EventBus
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var eventBus:EventBus
+    private lateinit var openPollEventList:List<PollEvent>
     lateinit var linearLayoutManager : LinearLayoutManager
     lateinit var eventAdapter: EventAdapter
+    private lateinit var progressDialog: ProgressDialog
+
 
     lateinit var actionBarDrawerToggle : ActionBarDrawerToggle
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if(!eventBus.isRegistered(this)){
+            eventBus.register(this)
+        }
         setContentView(R.layout.activity_main)
         loadNavigationMenu()
+        getAllPollData()
         setupRecyclerView()
 
         fab.setOnClickListener { view ->
@@ -39,6 +62,55 @@ class MainActivity : AppCompatActivity() {
                     .setAction("Action", null).show()
         }
     }
+
+
+    private fun getAllPollData(){
+        try {
+            if (AppUtils.isNetworkConnected(this@MainActivity)) {
+                progressDialog = ProgressDialog(this@MainActivity)
+                progressDialog.setMessage("Loading....")
+                progressDialog.show()
+                val username = AppUtils.getSharedPrefs(this).getString(Const.SHARED_PREF_USERNAME,"");
+                val call = MyApplication.networkService.getPollData(username)
+                call.enqueue(object : Callback<GetAllPollResponse> {
+                    override fun onResponse(call: Call<GetAllPollResponse>, response: Response<GetAllPollResponse>?) {
+                        progressDialog.dismiss()
+                        if (response != null && response.body() != null && response.body().status.equals("OK")) {
+                            openPollEventList = response.body().expiring_soon
+
+                        }
+                    }
+
+                    override fun onFailure(call: Call<GetAllPollResponse>, t: Throwable) {
+                        progressDialog.dismiss()
+                        Log.e("errror", toString())
+                        Toast.makeText(this@MainActivity, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } else {
+                Toast.makeText(this@MainActivity, "Network not connected!", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (eventBus.isRegistered(this)){
+            eventBus.unregister(this)
+        }
+    }
+
+
 
     override fun onCreateContextMenu(menu: ContextMenu?, v: View?, menuInfo: ContextMenu.ContextMenuInfo?) {
         return menuInflater.inflate(R.menu.main , menu)
@@ -58,7 +130,7 @@ class MainActivity : AppCompatActivity() {
         linearLayoutManager = LinearLayoutManager(this)
         rl_main.setHasFixedSize(true)
         rl_main.layoutManager = linearLayoutManager
-        eventAdapter = EventAdapter(this@MainActivity)
+        eventAdapter = EventAdapter(this@MainActivity,openPollEventList)
         rl_main.adapter = eventAdapter
     }
 

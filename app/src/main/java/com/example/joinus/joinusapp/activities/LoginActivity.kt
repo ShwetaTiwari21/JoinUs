@@ -61,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                     override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>?) {
                         progressDialog.dismiss()
                         if (response != null && response.body() != null && response.body().status.equals("OK")) {
-                            AppUtils.getSharedPrefEditor(this@LoginActivity).putString(Const.SHARED_PREF_USERNAME,et_username.text.toString()).apply()
+                            AppUtils.getSharedPrefEditor(this@LoginActivity).putString(Const.SHARED_PREF_USERNAME,et_login_username.text.toString()).apply()
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
                         }
