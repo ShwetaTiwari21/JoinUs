@@ -1,6 +1,7 @@
 package com.example.joinus.joinusapp.servcice
 
 import com.example.joinus.joinusapp.models.ResponseModel
+import com.example.joinus.joinusapp.models.SignupReqModel
 import com.example.joinus.joinusapp.utils.Const
 import retrofit2.Call
 import retrofit2.http.Body
@@ -16,6 +17,12 @@ import retrofit2.http.POST
 
     @GET(Const.GET_API)
     fun getPollData (@HeaderMap headerMap: Map<String,String>, @Body body: Body): retrofit2.Call<ResponseModel>
+
+    @POST(Const.SIGNUP_API)
+    fun signUp (@Body body: SignupReqModel): retrofit2.Call<ResponseModel>
+
+    @POST(Const.LOGIN_API)
+    fun login (@Body body: SignupReqModel): retrofit2.Call<ResponseModel>
 
 
 }
