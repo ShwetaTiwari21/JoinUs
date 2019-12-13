@@ -161,5 +161,10 @@
 
     <color name="black_theme_color">#121212</color>
     <color name="light_green">#40C1B5</color>
+    <color name="dark_light_green">#09B9A8</color>
+    <color name="light_light_green">#69C9C0</color>
+
+
+
 
 </resources>
