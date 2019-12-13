@@ -22,6 +22,14 @@ package com.example.joinus.joinusapp.utils
         const val TAG = "hello"
         var SHARED_PREF_USERNAME = "username"
 
+        const val CATEGORY_ID = "CATEGORY_ID"
+        const val NAV_HOME_ID = 0
+        const val NAV_SPORTS_ID = 1
+        const val NAV_MUNCHES_ID = 2
+        const val NAV_TRIPS_ID = 3
+        const val NAV_COUPONS_ID = 4
+        const val NAV_MOVIES_ID = 5
+        const val NAV_OTHERS_ID = 6
 
 
     }

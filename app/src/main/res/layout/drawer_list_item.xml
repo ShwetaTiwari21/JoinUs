@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_nav_drawer_item_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/list_item_ripple"
+            android:orientation="horizontal"
+            android:paddingBottom="@dimen/dp_15_dimen"
+            android:paddingEnd="@dimen/dp_16_dimen"
+            android:paddingLeft="@dimen/dp_16_dimen"
+            android:paddingRight="@dimen/dp_16_dimen"
+            android:paddingStart="@dimen/dp_16_dimen"
+            android:paddingTop="@dimen/dp_15_dimen"
+            android:weightSum="10">
+
+            <ImageView
+                android:id="@+id/iv_drawer_icon"
+                android:layout_width="@dimen/dp_24_dimen"
+                android:layout_height="@dimen/dp_24_dimen"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/ic_launcher_background" />
+
+            <LinearLayout
+                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_16_dimen"
+                android:layout_marginStart="@dimen/dp_16_dimen"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_drawer_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="home"
+                    android:fontFamily="roboto"
+                    android:textColor="@color/light_black"
+                    android:textSize="@dimen/tv_16_dimen"
+
+                    />
+
+                <TextView
+                    android:id="@+id/tv_drawer_language_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/dp_12_dimen"
+                    android:layout_marginStart="@dimen/dp_12_dimen"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/tv_10_dimen"
+                    android:visibility="gone"
+                    />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_drawer_count_holder"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/tv_drawer_counts"
+                    android:layout_width="@dimen/dp_20_dimen"
+                    android:layout_height="@dimen/dp_20_dimen"
+                    android:gravity="center"
+                    android:maxLength="3"
+                    android:text="5"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/tv_10_dimen"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <View
+        android:layout_below="@id/ll_drawer"
+        android:layout_width="match_parent"
+        android:background="@color/gray"
+        android:alpha="0.2"
+        android:layout_height="@dimen/dp_1_dimen"/>
+
+
+</RelativeLayout>
