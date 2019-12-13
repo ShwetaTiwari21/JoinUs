@@ -5,15 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black_theme_color"
+    android:background="@color/white"
     tools:context=".activities.LoginActivity">
 
     <ImageView
         android:id="@+id/iv_logo"
-        android:layout_width="90sp"
-        android:layout_height="90sp"
+        android:layout_width="60sp"
+        android:layout_height="60sp"
         android:src="@drawable/shipsy_logo"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
         android:layout_marginBottom="30sp"
         android:layout_above="@+id/ll_login"/>
 
@@ -70,7 +72,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
             android:text="Don't have an account "/>
@@ -79,7 +81,7 @@
             android:id="@+id/tv_signup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/red_color"
+            android:textColor="@color/light_green"
             android:layout_gravity="center_horizontal"
             android:text="Sign Up Now "/>
 

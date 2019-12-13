@@ -25,5 +25,9 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        bt_login.setOnClickListener{
+            startActivity(Intent(this@LoginActivity , MainActivity::class.java))
+        }
+
     }
 }
