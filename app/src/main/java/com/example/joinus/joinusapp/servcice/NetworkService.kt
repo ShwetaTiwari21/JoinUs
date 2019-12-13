@@ -15,7 +15,7 @@ import retrofit2.http.POST
  interface NetworkService {
 
     @GET(Const.GET_API)
-    fun getPollData (@HeaderMap headerMap: Map<String,String>, @Body body: Body): Call<ResponseModel>
+    fun getPollData (@HeaderMap headerMap: Map<String,String>, @Body body: Body): retrofit2.Call<ResponseModel>
 
 
 }
