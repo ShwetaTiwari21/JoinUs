@@ -21,7 +21,7 @@ import retrofit2.http.*
    fun login(@Body body: SignupReqModel): retrofit2.Call<ResponseModel>
 
    @POST(Const.POLL_CREATE_API)
-   fun createPollEvent(@HeaderMap headers: Map<String,String>, @Body body: PollEvent): retrofit2.Call<ResponseModel>
+   fun createPollEvent(@HeaderMap headers: Map<String,String>?, @Body body: PollEvent): retrofit2.Call<ResponseModel>
 
    @GET(Const.EVENT_DETAIL_API)
    fun getEventDetail(@HeaderMap headers: Map<String,String>? , @Query("poll_id") poll_id : String): retrofit2.Call<GetParticularPollResponse>

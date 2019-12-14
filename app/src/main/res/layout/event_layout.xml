@@ -70,17 +70,32 @@
                 android:text="Joined : 20"
                 android:textSize="13sp"/>
 
-            <TextView
-                android:id="@+id/tv_expire_time"
-                android:paddingLeft="10sp"
-                android:paddingStart="10sp"
-                android:layout_weight="1"
-                android:padding="6sp"
-                android:layout_marginTop="3dp"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Expiring in 01:00:20 hr"
-                android:textSize="13sp"/>
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="25sp"
+                    android:layout_height="25sp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/timer_image"/>
+
+                <TextView
+                    android:id="@+id/tv_expire_time"
+                    android:paddingLeft="10sp"
+                    android:paddingStart="10sp"
+                    android:layout_weight="1"
+                    android:padding="6sp"
+                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="01:00:20"
+                    android:textSize="13sp"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 

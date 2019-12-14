@@ -133,11 +133,11 @@ class EventDetailActivity : AppCompatActivity() {
                                 //                        String time = String.format("%03d:%02d:%02d", l / 3600,
                                 //                                (l % 3600) / 60, (l % 60));
                                 Log.e("remainingtImee", time)
-                                val finalText = "Expiring In: $time"
+                                val finalText = "$time"
                                 val spannableStringBuilder = SpannableStringBuilder(finalText)
                                 val foregroundColorSpan = ForegroundColorSpan(Color.RED)
                                 //32 is the starting index and 40 is the final index of counting time for making it red.
-                                spannableStringBuilder.setSpan(foregroundColorSpan, 13, 21, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+                                spannableStringBuilder.setSpan(foregroundColorSpan, 0, finalText.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
                                 tv_expire_time.setText(spannableStringBuilder)
 
                             } catch (e: Exception) {
