@@ -17,15 +17,14 @@ class CategoryDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category_detail)
 
-
         setupRecyclerView()
     }
 
     private fun setupRecyclerView() {
-        linearLayoutManager = LinearLayoutManager(this)
-        rv_event_list.setHasFixedSize(true)
-        rv_event_list.layoutManager = linearLayoutManager
-        eventAdapter = EventAdapter(this@CategoryDetailActivity,pollEventList)
-        rv_event_list.adapter = eventAdapter
+//        linearLayoutManager = LinearLayoutManager(this)
+//        rv_event_list.setHasFixedSize(true)
+//        rv_event_list.layoutManager = linearLayoutManager
+//        eventAdapter = EventAdapter(this@CategoryDetailActivity,pollEventList)
+//        rv_event_list.adapter = eventAdapter
     }
 }

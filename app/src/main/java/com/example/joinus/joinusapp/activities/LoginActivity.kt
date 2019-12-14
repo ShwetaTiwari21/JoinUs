@@ -36,6 +36,12 @@ class LoginActivity : AppCompatActivity() {
         transAnimation.repeatMode = 2
 //        iv_logo.animation = transAnimation
 
+        if(AppUtils.getSharedPrefs(this@LoginActivity).getBoolean(Const.HAS_LOGIN , false)){
+            val intent = Intent(this@LoginActivity , MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         tv_signup.setOnClickListener{
             val intent = Intent(this@LoginActivity , SignupActivity::class.java)
             startActivity(intent)
@@ -64,6 +70,8 @@ class LoginActivity : AppCompatActivity() {
 //                        progressDialog.dismiss()
                         if (response != null && response.body() != null && response.body().status.equals("OK")) {
                             AppUtils.getSharedPrefEditor(this@LoginActivity).putString(Const.SHARED_PREF_USERNAME,et_login_username.text.toString()).apply()
+                            AppUtils.getSharedPrefEditor(this@LoginActivity).putBoolean(Const.HAS_LOGIN , true).apply()
+
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
                         }

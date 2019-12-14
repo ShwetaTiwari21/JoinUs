@@ -16,6 +16,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.example.joinus.joinusapp.R
 import com.example.joinus.joinusapp.activities.MainActivity
+import java.util.*
 
 /**
  * Created by shwetatiwari on 13/12/19.
@@ -181,6 +182,16 @@ class AppUtils {
                 }
             } catch (exception: Exception) {
                 exception.printStackTrace()
+            }
+
+        }
+
+        fun getCurrentTimestamp(): String {
+            try {
+                return Calendar.getInstance().time.time.toString()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return ""
             }
 
         }

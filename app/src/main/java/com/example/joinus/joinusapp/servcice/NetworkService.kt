@@ -1,9 +1,6 @@
 package com.example.joinus.joinusapp.servcice
 
-import com.example.joinus.joinusapp.models.GetAllPollResponse
-import com.example.joinus.joinusapp.models.PollEvent
-import com.example.joinus.joinusapp.models.ResponseModel
-import com.example.joinus.joinusapp.models.SignupReqModel
+import com.example.joinus.joinusapp.models.*
 import com.example.joinus.joinusapp.utils.Const
 import retrofit2.Call
 import retrofit2.http.*
@@ -23,12 +20,11 @@ import retrofit2.http.*
    @POST(Const.LOGIN_API)
    fun login(@Body body: SignupReqModel): retrofit2.Call<ResponseModel>
 
-
    @POST(Const.POLL_CREATE_API)
    fun createPollEvent(@HeaderMap headers: Map<String,String>, @Body body: PollEvent): retrofit2.Call<ResponseModel>
 
-  @POST(Const.EVENT_DETAIL_API)
-  fun getEventDetail(@HeaderMap headers: Map<String,String>, @Body body: PollEvent): retrofit2.Call<ResponseModel>
+   @GET(Const.EVENT_DETAIL_API)
+   fun getEventDetail(@HeaderMap headers: Map<String,String>? , @Query("poll_id") poll_id : String): retrofit2.Call<GetParticularPollResponse>
 
    @POST(Const.JOIN_API)
    fun joinPollEvent(@HeaderMap headers: Map<String,String>?, @Body body: PollEvent): retrofit2.Call<ResponseModel>

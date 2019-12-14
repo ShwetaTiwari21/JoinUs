@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/Air"
+    android:id="@+id/ll_toolbar"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/colorPrimary"
+        android:elevation="@dimen/dp_6_dimen"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        >
+
+        <RelativeLayout
+            android:id="@+id/rl_toolbar_holder"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_toolbar_label"
+                android:layout_width="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:layout_marginLeft="@dimen/dp_4_dimen"
+                android:padding="@dimen/dp_8_dimen"
+                android:text="@string/app_name"
+                android:textColor="@color/white"
+                android:textSize="@dimen/tv_20_dimen" />
+
+            <LinearLayout
+                android:id="@+id/ll_all_icons"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_toolbar_refresh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/dp_10_dimen"
+                    android:paddingEnd="@dimen/dp_10_dimen"
+                    android:paddingLeft="@dimen/dp_8_dimen"
+                    android:paddingStart="@dimen/dp_8_dimen"
+                    android:paddingTop="@dimen/dp_8_dimen"
+                    android:paddingBottom="@dimen/dp_8_dimen"
+                    android:src="@drawable/ic_refresh_white_24dp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+</LinearLayout>

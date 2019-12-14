@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 
  class MyApplication : Application() {
 
-    private val baseurl = "http://shikharsharma-gius.localhost.run"
+    private val baseurl = "http://192.168.1.49:6000/"
     companion object {
         lateinit var retrofit: Retrofit
         lateinit var networkService: NetworkService
