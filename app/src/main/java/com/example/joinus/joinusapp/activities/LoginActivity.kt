@@ -42,7 +42,7 @@ class LoginActivity : AppCompatActivity() {
         }
 
         bt_login.setOnClickListener{
-            makeLoginReq();
+            makeLoginReq()
         }
 
     }
@@ -52,14 +52,16 @@ class LoginActivity : AppCompatActivity() {
             var loginReq = SignupReqModel(et_login_username.text.toString())
 
             if (AppUtils.isNetworkConnected(this@LoginActivity)) {
-                progressDialog = ProgressDialog(this@LoginActivity)
-                progressDialog.setMessage("Loading....")
-                progressDialog.show()
+//                progressDialog = ProgressDialog(this@LoginActivity)
+//                progressDialog.setMessage("Loading....")
+//                progressDialog.show()
+                AppUtils.showLoader(this@LoginActivity)
 
                 val call = MyApplication.networkService.login(loginReq)
                 call.enqueue(object : Callback<ResponseModel> {
                     override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>?) {
-                        progressDialog.dismiss()
+                        AppUtils.removeLoader(this@LoginActivity)
+//                        progressDialog.dismiss()
                         if (response != null && response.body() != null && response.body().status.equals("OK")) {
                             AppUtils.getSharedPrefEditor(this@LoginActivity).putString(Const.SHARED_PREF_USERNAME,et_login_username.text.toString()).apply()
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
@@ -68,7 +70,8 @@ class LoginActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
-                        progressDialog.dismiss()
+                        AppUtils.removeLoader(this@LoginActivity)
+//                        progressDialog.dismiss()
                         Log.e("errror", toString())
                         Toast.makeText(this@LoginActivity, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show()
                     }

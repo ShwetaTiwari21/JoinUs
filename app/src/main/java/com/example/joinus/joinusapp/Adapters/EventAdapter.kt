@@ -79,21 +79,24 @@ class EventAdapter(var context : Context,var openPollEventList:List<PollEvent>) 
             var joinReq = PollEvent(eventId)
 
             if (AppUtils.isNetworkConnected(context)) {
-                var progressDialog  = ProgressDialog(context)
-                progressDialog.setMessage("Loading....")
-                progressDialog.show()
+//                var progressDialog  = ProgressDialog(context)
+//                progressDialog.setMessage("Loading....")
+//                progressDialog.show()
+                AppUtils.showLoader(context)
 
                 val call = MyApplication.networkService.joinPollEvent(HeaderGenerator.createHeaderMap(context),joinReq)
                 call.enqueue(object : Callback<ResponseModel> {
                     override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>?) {
-                        progressDialog.dismiss()
+                        AppUtils.removeLoader(context)
+//                        progressDialog.dismiss()
                         if (response != null && response.body() != null && response.body().status.equals("OK")) {
 
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
-                        progressDialog.dismiss()
+                        AppUtils.removeLoader(context)
+//                        progressDialog.dismiss()
                         Log.e("errror", toString())
                         Toast.makeText(context, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show()
                     }
@@ -111,21 +114,25 @@ class EventAdapter(var context : Context,var openPollEventList:List<PollEvent>) 
             var leaveReq = PollEvent(eventId)
 
             if (AppUtils.isNetworkConnected(context)) {
-                var progressDialog  = ProgressDialog(context)
-                progressDialog.setMessage("Loading....")
-                progressDialog.show()
+//                var progressDialog  = ProgressDialog(context)
+//                progressDialog.setMessage("Loading....")
+//                progressDialog.show()
+
+                AppUtils.showLoader(context)
 
                 val call = MyApplication.networkService.leavePollEvent(HeaderGenerator.createHeaderMap(context),leaveReq)
                 call.enqueue(object : Callback<ResponseModel> {
                     override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>?) {
-                        progressDialog.dismiss()
+//                        progressDialog.dismiss()
+                        AppUtils.removeLoader(context)
                         if (response != null && response.body() != null && response.body().status.equals("OK")) {
 
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
-                        progressDialog.dismiss()
+//                        progressDialog.dismiss()
+                        AppUtils.removeLoader(context)
                         Log.e("errror", toString())
                         Toast.makeText(context, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show()
                     }

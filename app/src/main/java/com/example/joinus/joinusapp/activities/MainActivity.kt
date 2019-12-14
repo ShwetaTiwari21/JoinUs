@@ -1,7 +1,6 @@
 package com.example.joinus.joinusapp.activities
 
 import android.app.ProgressDialog
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -21,10 +20,8 @@ import com.example.joinus.joinusapp.R
 import com.example.joinus.joinusapp.models.DrawerItem
 import com.example.joinus.joinusapp.models.GetAllPollResponse
 import com.example.joinus.joinusapp.models.PollEvent
-import com.example.joinus.joinusapp.models.ResponseModel
 import com.example.joinus.joinusapp.utils.AppUtils
 import com.example.joinus.joinusapp.utils.Const
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
@@ -32,8 +29,6 @@ import org.greenrobot.eventbus.EventBus
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,14 +62,16 @@ class MainActivity : AppCompatActivity() {
     private fun getAllPollData(){
         try {
             if (AppUtils.isNetworkConnected(this@MainActivity)) {
-                progressDialog = ProgressDialog(this@MainActivity)
-                progressDialog.setMessage("Loading....")
-                progressDialog.show()
+//                progressDialog = ProgressDialog(this@MainActivity)
+//                progressDialog.setMessage("Loading....")
+//                progressDialog.show()
+                AppUtils.showLoader(this@MainActivity)
                 val username = AppUtils.getSharedPrefs(this).getString(Const.SHARED_PREF_USERNAME,"");
                 val call = MyApplication.networkService.getPollData(username)
                 call.enqueue(object : Callback<GetAllPollResponse> {
                     override fun onResponse(call: Call<GetAllPollResponse>, response: Response<GetAllPollResponse>?) {
-                        progressDialog.dismiss()
+//                        progressDialog.dismiss()
+                        AppUtils.removeLoader(this@MainActivity)
                         if (response != null && response.body() != null && response.body().status.equals("OK")) {
                             openPollEventList = response.body().expiring_soon
 
@@ -82,7 +79,8 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<GetAllPollResponse>, t: Throwable) {
-                        progressDialog.dismiss()
+//                        progressDialog.dismiss()
+                        AppUtils.removeLoader(this@MainActivity)
                         Log.e("errror", toString())
                         Toast.makeText(this@MainActivity, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show()
                     }
