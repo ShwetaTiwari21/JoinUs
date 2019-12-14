@@ -36,13 +36,19 @@ class LoginActivity : AppCompatActivity() {
         transAnimation.repeatMode = 2
 //        iv_logo.animation = transAnimation
 
+        if(AppUtils.getSharedPrefs(this@LoginActivity).getBoolean(Const.HAS_LOGIN , false)){
+            val intent = Intent(this@LoginActivity , MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         tv_signup.setOnClickListener{
             val intent = Intent(this@LoginActivity , SignupActivity::class.java)
             startActivity(intent)
         }
 
         bt_login.setOnClickListener{
-            makeLoginReq();
+            makeLoginReq()
         }
 
     }
@@ -52,23 +58,28 @@ class LoginActivity : AppCompatActivity() {
             var loginReq = SignupReqModel(et_login_username.text.toString())
 
             if (AppUtils.isNetworkConnected(this@LoginActivity)) {
-                progressDialog = ProgressDialog(this@LoginActivity)
-                progressDialog.setMessage("Loading....")
-                progressDialog.show()
+//                progressDialog = ProgressDialog(this@LoginActivity)
+//                progressDialog.setMessage("Loading....")
+//                progressDialog.show()
+                AppUtils.showLoader(this@LoginActivity)
 
                 val call = MyApplication.networkService.login(loginReq)
                 call.enqueue(object : Callback<ResponseModel> {
                     override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>?) {
-                        progressDialog.dismiss()
+                        AppUtils.removeLoader(this@LoginActivity)
+//                        progressDialog.dismiss()
                         if (response != null && response.body() != null && response.body().status.equals("OK")) {
-                            AppUtils.getSharedPrefEditor(this@LoginActivity).putString(Const.SHARED_PREF_USERNAME,et_username.text.toString()).apply()
+                            AppUtils.getSharedPrefEditor(this@LoginActivity).putString(Const.SHARED_PREF_USERNAME,et_login_username.text.toString()).apply()
+                            AppUtils.getSharedPrefEditor(this@LoginActivity).putBoolean(Const.HAS_LOGIN , true).apply()
+
                             val intent = Intent(this@LoginActivity, MainActivity::class.java)
                             startActivity(intent)
                         }
                     }
 
                     override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
-                        progressDialog.dismiss()
+                        AppUtils.removeLoader(this@LoginActivity)
+//                        progressDialog.dismiss()
                         Log.e("errror", toString())
                         Toast.makeText(this@LoginActivity, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show()
                     }

@@ -76,6 +76,9 @@ class DrawerAdapter(context: Context, navDrawerItems: ArrayList<DrawerItem>, lan
             drawerViewHolder.txtTitle.textSize = 14f
             drawerViewHolder.txtTitle.setSingleLine(true)
 
+//            drawerViewHolder.parentLayout.setOnClickListener {
+//                drawerViewHolder.parentLayout.background = context!!.resources.getDrawable(R.drawable.grey_list_item_ripple)
+//            }
 
             if (drawerItem.title != null) {
                 drawerViewHolder.txtTitle.setText(drawerItem.title)

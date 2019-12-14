@@ -31,17 +31,18 @@ class SignupActivity : AppCompatActivity() {
 
     private fun sendUserDetail() {
         try {
-            var signupReqModel = SignupReqModel(et_username.text.toString(), et_name.text.toString(),et_phone.text.toString())
+            val signupReqModel = SignupReqModel(et_username.text.toString(), et_name.text.toString(),et_phone.text.toString())
 
             if (AppUtils.isNetworkConnected(this@SignupActivity)) {
-                progressDialog = ProgressDialog(this@SignupActivity)
-                progressDialog.setMessage("Loading....")
-                progressDialog.show()
+//                progressDialog = ProgressDialog(this@SignupActivity)
+//                progressDialog.setMessage("Loading....")
+//                progressDialog.show()
+                AppUtils.showLoader(this@SignupActivity)
 
                 val call = MyApplication.networkService.signUp(signupReqModel)
                 call.enqueue(object : Callback<ResponseModel> {
                     override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>?) {
-                        progressDialog.dismiss()
+                        AppUtils.removeLoader(this@SignupActivity)
                         if (response != null && response.body() != null && response.body().status.equals("OK")) {
                             val intent = Intent(this@SignupActivity, LoginActivity::class.java)
                             startActivity(intent)
@@ -49,7 +50,8 @@ class SignupActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
-                        progressDialog.dismiss()
+                        AppUtils.removeLoader(this@SignupActivity)
+//                        progressDialog.dismiss()
                         Log.e("errror", toString())
                         Toast.makeText(this@SignupActivity, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show()
                     }

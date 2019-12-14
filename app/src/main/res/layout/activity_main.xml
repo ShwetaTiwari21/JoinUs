@@ -18,6 +18,7 @@
         android:id="@+id/nv_main_landing"
         android:layout_width="264dp"
         android:layout_height="match_parent"
+        app:itemBackground="@drawable/grey_list_item_ripple"
         android:layout_gravity="start">
 
     <RelativeLayout
