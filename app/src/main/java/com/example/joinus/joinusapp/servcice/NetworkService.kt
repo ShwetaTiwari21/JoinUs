@@ -25,7 +25,7 @@ import retrofit2.http.*
 
 
    @POST(Const.POLL_CREATE_API)
-   fun createPollEvent(@HeaderMap headers: Map<String,String>, @Body body: PollEvent): retrofit2.Call<ResponseModel>
+   fun createPollEvent(@HeaderMap headers: Map<String,String>?, @Body body: PollEvent): retrofit2.Call<ResponseModel>
 
    @POST(Const.JOIN_API)
    fun joinPollEvent(@HeaderMap headers: Map<String,String>?, @Body body: PollEvent): retrofit2.Call<ResponseModel>

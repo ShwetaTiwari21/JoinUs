@@ -3,6 +3,7 @@ package com.example.joinus.joinusapp.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import java.util.*
 
 /**
  * Created by shwetatiwari on 13/12/19.
@@ -24,6 +25,16 @@ class AppUtils {
             val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
             return cm.activeNetworkInfo != null && cm.activeNetworkInfo.isConnected
+        }
+
+        fun getCurrentTimestamp(): String {
+            try {
+                return Calendar.getInstance().time.time.toString()
+            } catch (e: Exception) {
+                e.printStackTrace()
+                return ""
+            }
+
         }
 
     }

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/dialog"
+    android:background="@android:color/white"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/button_close"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:tint="@android:color/white"
+                app:srcCompat="@drawable/ic_close" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="Create Event"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/button_save"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:text="Save"
+                android:textColor="@android:color/white" />
+
+        </LinearLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nested_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/dp_16_dimen"
+        android:scrollbars="none"
+        android:scrollingCache="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:paddingBottom="10sp"
+            android:inputType="text"
+            android:hint="Title"
+            android:textColorHint="@color/gray" />
+
+        <EditText
+            android:id="@+id/et_description"
+            android:layout_marginTop="@dimen/dp_24_dimen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:paddingBottom="10sp"
+            android:inputType="text"
+            android:hint="Description"
+            android:textColorHint="@color/gray" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_36_dimen"
+                android:gravity="center"
+                android:minHeight="@dimen/et_dialog_height"
+                android:orientation="vertical">
+
+                <Spinner
+                    android:id="@+id/spinnerCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color" />
+
+            </LinearLayout>
+
+        <EditText
+            android:id="@+id/et_min_participants"
+            android:layout_marginTop="@dimen/dp_24_dimen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:paddingBottom="10sp"
+            android:inputType="number"
+            android:hint="Minimum Participants"
+            android:textColorHint="@color/gray" />
+
+
+            <EditText
+                android:id="@+id/et_max_participants"
+                android:layout_marginTop="@dimen/dp_24_dimen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:paddingBottom="10sp"
+                android:inputType="number"
+                android:hint="Maximum Participants"
+                android:textColorHint="@color/gray" />
+
+            <EditText
+                android:id="@+id/et_url"
+                android:layout_marginTop="@dimen/dp_24_dimen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:paddingBottom="10sp"
+                android:inputType="text"
+                android:hint="Link"
+                android:textColorHint="@color/gray" />
+
+            <LinearLayout
+                android:id="@+id/ll_date"
+                android:layout_marginTop="@dimen/dp_18_dimen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/TextSecondaryDark"
+                    android:layout_marginTop="20dp"
+                    android:textSize="@dimen/tv_18_dimen"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Date"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:paddingTop="@dimen/dp_3_dimen"
+                    android:background="@color/TextTertiaryDark"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginTop="@dimen/dp_18_dimen"
+                android:id="@+id/ll_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/dp_30_dimen"
+                >
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/TextSecondaryDark"
+                    android:layout_marginTop="20dp"
+                    android:textSize="@dimen/tv_18_dimen"
+                    android:layout_gravity="center_horizontal"
+                    android:text="Time"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:paddingTop="@dimen/dp_3_dimen"
+                    android:background="@color/TextTertiaryDark"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

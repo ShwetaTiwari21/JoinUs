@@ -1,5 +1,6 @@
 package com.example.joinus.joinusapp.activities
 
+import android.animation.Animator
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -10,18 +11,11 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
-import android.view.ContextMenu
-import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import com.example.joinus.joinusapp.Adapters.DrawerAdapter
 import com.example.joinus.joinusapp.Adapters.EventAdapter
 import com.example.joinus.joinusapp.MyApplication
 import com.example.joinus.joinusapp.R
-import com.example.joinus.joinusapp.models.DrawerItem
-import com.example.joinus.joinusapp.models.GetAllPollResponse
-import com.example.joinus.joinusapp.models.PollEvent
-import com.example.joinus.joinusapp.models.ResponseModel
 import com.example.joinus.joinusapp.utils.AppUtils
 import com.example.joinus.joinusapp.utils.Const
 import kotlinx.android.synthetic.main.activity_login.*
@@ -34,6 +28,29 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.*
 import kotlin.collections.ArrayList
+import android.animation.AnimatorListenerAdapter
+import android.app.DatePickerDialog
+import android.app.Dialog
+import android.app.TimePickerDialog
+import com.example.joinus.joinusapp.R.id.fab
+import android.opengl.ETC1.getHeight
+import android.opengl.ETC1.getWidth
+import android.view.*
+import kotlinx.android.synthetic.main.event_layout.*
+import android.view.KeyEvent.KEYCODE_BACK
+import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.widget.DatePicker
+//import com.example.joinus.joinusapp.adapters.HintAdapter
+import com.example.joinus.joinusapp.models.*
+import com.example.joinus.joinusapp.network.HeaderGenerator
+//import com.example.joinus.joinusapp.utils.HintSpinner
+import kotlinx.android.synthetic.main.dialog_layout.*
+import kotlinx.android.synthetic.main.dialog_layout.view.*
+import java.text.SimpleDateFormat
+import javax.xml.datatype.DatatypeConstants.MONTHS
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,6 +59,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var linearLayoutManager : LinearLayoutManager
     lateinit var eventAdapter: EventAdapter
     private lateinit var progressDialog: ProgressDialog
+    var cal = Calendar.getInstance()
+    lateinit var selectedCategory:String
 
 
     lateinit var actionBarDrawerToggle : ActionBarDrawerToggle
@@ -49,17 +68,215 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if(!eventBus.isRegistered(this)){
-            eventBus.register(this)
-        }
+//        if(!EventBus.getDefault().isRegistered(this)){
+//            EventBus.getDefault().register(this)
+//        }
         setContentView(R.layout.activity_main)
         loadNavigationMenu()
+//        initializeSpinner()
+        openPollEventList = ArrayList()
         getAllPollData()
         setupRecyclerView()
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                showDialog()
+
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show()
+        }
+
+
+    }
+
+
+    private fun showDialog(){
+
+        try {
+            val dialogView = View.inflate(this, R.layout.dialog_layout, null);
+            val dialog = Dialog(this, R.style.MyAlertDialogStyle);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(dialogView);
+
+            dialogView.button_close.setOnClickListener {
+                revealShow(dialogView, false, dialog);
+            }
+
+            dialogView.button_save.setOnClickListener {
+                var id = AppUtils.getCurrentTimestamp()
+                var pollEvent = PollEvent(dialogView.et_title.text.toString(), id, "cat", dialogView.et_description.text.toString(),
+                        dialogView.et_url.text.toString(),
+                        dialogView.tv_date.text.toString(), dialogView.tv_time.toString(),
+                        dialogView.et_min_participants.text.toString(), dialogView.et_max_participants.text.toString())
+
+                createPollEvent(pollEvent)
+                revealShow(dialogView, false, dialog);
+
+            }
+
+            // create an OnDateSetListener
+            val dateSetListener = object : DatePickerDialog.OnDateSetListener {
+                override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int,
+                                       dayOfMonth: Int) {
+                    cal.set(Calendar.YEAR, year)
+                    cal.set(Calendar.MONTH, monthOfYear)
+                    cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+                    val myFormat = "MM/dd/yyyy" // mention the format you need
+                    val sdf = SimpleDateFormat(myFormat, Locale.US)
+                    dialogView.tv_date!!.text = sdf.format(cal.getTime())
+                }
+            }
+
+            dialogView.ll_time.setOnClickListener {
+                val c: Calendar = Calendar.getInstance()
+                val hh = c.get(Calendar.HOUR_OF_DAY)
+                val mm = c.get(Calendar.MINUTE)
+                val timePickerDialog: TimePickerDialog = TimePickerDialog(this@MainActivity, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+                    dialogView.tv_time.setText("" + hourOfDay + ":" + minute);
+                }, hh, mm, true)
+                timePickerDialog.show()
+            }
+
+            dialogView.tv_date!!.setOnClickListener(object : View.OnClickListener {
+                override fun onClick(view: View) {
+                    DatePickerDialog(this@MainActivity,
+                            dateSetListener,
+                            // set DatePickerDialog to point to today's date when it loads up
+                            cal.get(Calendar.YEAR),
+                            cal.get(Calendar.MONTH),
+                            cal.get(Calendar.DAY_OF_MONTH)).show()
+                }
+
+            })
+
+
+            dialog.setOnShowListener { revealShow(dialogView, true, null) }
+
+            dialog.setOnKeyListener(object : DialogInterface.OnKeyListener {
+                override fun onKey(dialogInterface: DialogInterface, i: Int, keyEvent: KeyEvent): Boolean {
+                    if (i == KeyEvent.KEYCODE_BACK) {
+
+                        revealShow(dialogView, false, dialog)
+                        return true
+                    }
+
+                    return false
+                }
+            })
+
+            dialog.getWindow().setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
+
+            dialog.show();
+        } catch (e:Exception){
+            e.printStackTrace()
+        }
+
+    }
+
+//    private fun initializeSpinner() {
+//
+//        var categoryList: List<String> = ArrayList()
+//        categoryList.toMutableList().add("Sports")
+//        categoryList.toMutableList().add("Munchies")
+//        categoryList.toMutableList().add("Trips")
+//        categoryList.toMutableList().add("Coupons")
+//        categoryList.toMutableList().add("Movies")
+//        categoryList.toMutableList().add("Others")
+//
+//
+//        // Creating adapter for spinner
+//        val dataAdapter = HintAdapter<String>(this@MainActivity, "Munchies", categoryList)
+//
+//        // Drop down layout style - list view with radio button
+//        dataAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item)
+//
+//        // attaching data adapter to spinner
+//        val hintSpinner = HintSpinner(spinnerCategory, dataAdapter, object : HintSpinner.Callback<String>() {
+//           override fun onItemSelected(position: Int, itemAtPosition: String) {
+//                selectedCategory = categoryList.get(position)
+//
+//            }
+//        })
+//        hintSpinner.init()
+//
+//    }
+
+
+    private fun updateDateInView() {
+
+    }
+    private fun revealShow(dialogView: View, b: Boolean, dialog: Dialog?) {
+
+        try {
+
+            var view = dialogView.dialog
+
+
+            val w = view.getWidth()
+            val h = view.getHeight()
+
+            val endRadius = Math.hypot(w.toDouble(), h.toDouble()).toInt()
+
+            val cx = (fab.x + fab.width / 2).toInt()
+            val cy = fab.y.toInt() + fab.height + 56
+
+
+            if (b) {
+                val revealAnimator = ViewAnimationUtils.createCircularReveal(view, cx, cy, 0f, endRadius.toFloat())
+
+                view.setVisibility(View.VISIBLE)
+                revealAnimator.duration = 700
+                revealAnimator.start()
+
+            } else {
+
+                val anim = ViewAnimationUtils.createCircularReveal(view, cx, cy, endRadius.toFloat(), 0f)
+
+                anim.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator) {
+                        super.onAnimationEnd(animation)
+                        dialog?.dismiss()
+                        view.setVisibility(View.INVISIBLE)
+
+                    }
+                })
+                anim.duration = 700
+                anim.start()
+            }
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+
+    }
+
+    private fun createPollEvent(pollEvent: PollEvent){
+        try {
+
+            if (AppUtils.isNetworkConnected(this@MainActivity)) {
+                progressDialog = ProgressDialog(this@MainActivity)
+                progressDialog.setMessage("Loading....")
+                progressDialog.show()
+
+                val call = MyApplication.networkService.createPollEvent(HeaderGenerator.createHeaderMap(this@MainActivity),pollEvent)
+                call.enqueue(object : Callback<ResponseModel> {
+                    override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>?) {
+                        progressDialog.dismiss()
+                        if (response != null && response.body() != null && response.body().status.equals("OK")) {
+                            Toast.makeText(this@MainActivity, "Event created successfully", Toast.LENGTH_SHORT).show()
+
+                        }
+                    }
+
+                    override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                        progressDialog.dismiss()
+                        Log.e("errror", toString())
+                        Toast.makeText(this@MainActivity, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            } else {
+                Toast.makeText(this@MainActivity, "Network not connected!", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception){
+            e.printStackTrace()
         }
     }
 
@@ -105,9 +322,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (eventBus.isRegistered(this)){
-            eventBus.unregister(this)
-        }
+//        if (EventBus.getDefault().isRegistered(this)){
+//            EventBus.getDefault().unregister(this)
+//        }
     }
 
 
